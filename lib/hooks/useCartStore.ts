@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { round2 } from '../utils';
 import { OrderItem } from '../models/OrderModel';
+import { persist } from 'zustand/middleware';
 
 type Cart = {
   items: OrderItem[];
@@ -17,7 +18,9 @@ const initalState: Cart = {
   totalPrice: 0,
 };
 
-export const cartStore = create<Cart>(() => initalState);
+export const cartStore = create<Cart>()(
+  persist(() => initalState, { name: 'cartStore' })
+);
 
 export default function useCartService() {
   const { items, itemsPrice, taxPrice, shippingPrice, totalPrice } =
@@ -52,7 +55,7 @@ export default function useCartService() {
         exist.qty === 1
           ? items.filter((x: OrderItem) => x.slug !== item.slug)
           : items.map((x) =>
-              item.slug ? { ...exist, qty: exist.qty - 1 } : x
+              x.slug === item.slug ? { ...exist, qty: exist.qty - 1 } : x
             );
       const { itemsPrice, taxPrice, shippingPrice, totalPrice } =
         calcPrice(updatedCartItems);
@@ -69,10 +72,10 @@ export default function useCartService() {
 
 const calcPrice = (items: OrderItem[]) => {
   const itemsPrice = round2(
-    items.reduce((acc, item) => acc + item.qty * item.price, 0)
-  );
-  const shippingPrice = round2(itemsPrice > 100 ? 0 : 25);
-  const taxPrice = round2(Number(itemsPrice * 0.15));
-  const totalPrice = round2(itemsPrice + taxPrice + shippingPrice);
-  return { itemsPrice, taxPrice, shippingPrice, totalPrice };
+      items.reduce((acc, item) => acc + item.price * item.qty, 0)
+    ),
+    shippingPrice = round2(itemsPrice > 100 ? 0 : 25),
+    taxPrice = round2(Number(0.15 * itemsPrice)),
+    totalPrice = round2(itemsPrice + shippingPrice + taxPrice);
+  return { itemsPrice, shippingPrice, taxPrice, totalPrice };
 };
