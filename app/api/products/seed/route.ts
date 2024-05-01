@@ -1,5 +1,5 @@
 import data from '@/lib/data';
-import dbConnect from '@/lib/dbconnect';
+import dbConnect from '@/lib/dbConnect';
 import ProductModel from '@/lib/models/ProductModel';
 import UserModel from '@/lib/models/UserModel';
 import { NextRequest, NextResponse } from 'next/server';

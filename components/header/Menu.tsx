@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import useCartService from '@/lib/hooks/useCartStore';
 import Link from 'next/link';
+import { signIn, signOut, useSession } from 'next-auth/react';
 
 const Menu = () => {
   const { items } = useCartService();
@@ -10,6 +11,12 @@ const Menu = () => {
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  const handleSignOut = () => {
+    signOut({ callbackUrl: '/signin' });
+  };
+
+  const { data: session } = useSession();
 
   return (
     <div>
@@ -24,11 +31,53 @@ const Menu = () => {
             )}
           </Link>
         </li>
-        <li>
-          <button className='btn btn-ghost rounded-btn' type='button'>
-            Sign In
-          </button>
-        </li>
+        {session && session.user ? (
+          <>
+            <li>
+              <div className='dropdown dropdown-bottom dropdown-end'>
+                <label tabIndex={0} className='btn btn-ghost rounded-btn'>
+                  {session.user.name}
+                  <svg
+                    xmlns='http://www.w3.org/2000/svg'
+                    className='h-6 w-6'
+                    fill='none'
+                    viewBox='0 0 24 24'
+                    stroke='currentColor'
+                    strokeWidth={1.5}
+                  >
+                    <path
+                      strokeLinecap='round'
+                      strokeLinejoin='round'
+                      d='M19.5 8.25l-7.5 7.5-7.5-7.5'
+                    />
+                  </svg>
+                </label>
+                <ul
+                  tabIndex={0}
+                  className='menu dropdown-content z-[1] p-2 shadow bg-base-300 rounded-box w-52'
+                >
+                  <li>
+                    <button type='button' onClick={handleSignOut}>
+                      Sign Out
+                    </button>
+                  </li>
+                </ul>
+              </div>
+            </li>
+          </>
+        ) : (
+          <>
+            <li>
+              <button
+                type='button'
+                className='btn btn-ghost rounded-btn'
+                onClick={() => signIn()}
+              >
+                Sign In
+              </button>
+            </li>
+          </>
+        )}
       </ul>
     </div>
   );

@@ -1,5 +1,5 @@
 import { cache } from 'react';
-import dbConnect from '../dbconnect';
+import dbConnect from '@/lib/dbConnect';
 import ProductModel, { Product } from '../models/ProductModel';
 
 export const revalidate = 3600;
