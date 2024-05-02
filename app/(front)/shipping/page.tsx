@@ -2,9 +2,9 @@ import { Metadata } from 'next';
 import Form from './Form';
 
 export const metadata: Metadata = {
-  title: 'Register',
+  title: 'Shipping Address',
 };
 
-export default async function RegisterPage() {
+export default async function ShippingPage() {
   return <Form />;
 }
