@@ -24,7 +24,7 @@ export const POST = auth(async (req: any) => {
     await dbConnect();
     const dbProductPrices = await ProductModel.find(
       {
-        _id: { $in: payload.products.map((p: { _id: string }) => p._id) },
+        _id: { $in: payload.items.map((p: { _id: string }) => p._id) },
       },
       'price'
     );
