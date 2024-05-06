@@ -61,7 +61,11 @@ export type Order = {
     country: string;
   };
   paymentMethod: string;
-  paymentResult?: { id: string; status: string; email_address: string };
+  paymentResult?: {
+    id: string;
+    status: string;
+    email_address: string;
+  };
   itemsPrice: number;
   taxPrice: number;
   shippingPrice: number;

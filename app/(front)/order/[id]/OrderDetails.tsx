@@ -1,8 +1,10 @@
 'use client';
 import { OrderItem } from '@/lib/models/OrderModel';
+import { PayPalButtons, PayPalScriptProvider } from '@paypal/react-paypal-js';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
+import toast from 'react-hot-toast';
 import useSWR from 'swr';
 
 export default function OrderDetails({
@@ -13,6 +15,39 @@ export default function OrderDetails({
   paypalClientId: string;
 }) {
   const { data: session } = useSession();
+
+  const createPaypalOrder = async () => {
+    try {
+      const res = await fetch(`/api/orders/${orderId}/create-paypal-order`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      const order = await res.json();
+      return order.id;
+    } catch (error: any) {
+      return toast.error(error.message);
+    }
+  };
+
+  const onApprovePaypalOrder = async (data: any) => {
+    try {
+      const res = await fetch(`/api/orders/${orderId}/capture-paypal-order`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+      const orderData = await res.json();
+      toast.success('Order paid successfully');
+      return orderData;
+    } catch (error: any) {
+      return toast.error(error.message);
+    }
+  };
+
   const { data, error } = useSWR(`/api/orders/${orderId}`);
 
   if (error) {
@@ -134,6 +169,17 @@ export default function OrderDetails({
                   <div>${totalPrice}</div>
                 </div>
               </li>
+
+              {!isPaid && paymentMethod === 'PayPal' && (
+                <li>
+                  <PayPalScriptProvider options={{ clientId: paypalClientId }}>
+                    <PayPalButtons
+                      createOrder={createPaypalOrder}
+                      onApprove={onApprovePaypalOrder}
+                    />
+                  </PayPalScriptProvider>
+                </li>
+              )}
             </ul>
           </div>
         </div>
