@@ -1,17 +1,15 @@
 'use client';
 import CheckoutSteps from '@/components/CheckoutSteps';
-import OrderInfos from '@/components/order/OrderInfos';
 import useCartService from '@/lib/hooks/useCartStore';
 import Image from 'next/image';
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import useSWRMutation from 'swr/mutation';
 
 const From = () => {
   const router = useRouter();
-  const pathname = usePathname();
   const {
     paymentMethod,
     shippingAddress,
@@ -70,12 +68,126 @@ const From = () => {
   if (!mounted) {
     return null;
   }
-  console.log(pathname);
 
   return (
     <div>
       <CheckoutSteps current={4} />
-      <OrderInfos placeOrder={placeOrder} isPlacing={isPlacing} />
+      <div className='grid md:grid-cols-4 md:gap-5 mt-4'>
+        <div className='md:col-span-3'>
+          <div className='card bg-base-300 mb-4'>
+            <div className='card-body'>
+              <h2 className='card-title'>Shipping Address</h2>
+              <p>{shippingAddress.fullName}</p>
+              <p>
+                {shippingAddress.address}, {shippingAddress.city},{' '}
+                {shippingAddress.postalCode}, {shippingAddress.country}{' '}
+              </p>
+              <div>
+                <Link className='btn' href='/shipping'>
+                  Edit
+                </Link>
+              </div>
+            </div>
+          </div>
+          <div className='card bg-base-300 mb-4'>
+            <div className='card-body'>
+              <h2 className='card-title'>Payment Method</h2>
+              <p>{paymentMethod}</p>
+              <div>
+                <Link className='btn' href='/payment'>
+                  Edit
+                </Link>
+              </div>
+            </div>
+          </div>
+          <div className='card bg-base-300 mb-4'>
+            <div className='card-body'>
+              <h2 className='card-title'>Items</h2>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {items.map((item) => (
+                    <tr key={item.slug}>
+                      <td>
+                        <Link
+                          href={`/product/${item.slug}`}
+                          className='flex items-center'
+                        >
+                          <Image
+                            src={item.image}
+                            alt={item.name}
+                            width={50}
+                            height={50}
+                          />
+                          <span className='px-2'>
+                            {item.name}({item.color} {item.size})
+                          </span>
+                        </Link>
+                      </td>
+                      <td>{item.qty}</td>
+                      <td>${item.price}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              <div>
+                <Link className='btn' href='/cart'>
+                  Edit
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className='card bg-base-300 mb-4'>
+          <div className='card-body'>
+            <h2 className='card-title'>Order Summary</h2>
+            <ul className='space-y-3'>
+              <li>
+                <div className='flex justify-between'>
+                  <div>Items</div>
+                  <div>${itemsPrice}</div>
+                </div>
+              </li>
+              <li>
+                <div className='flex justify-between'>
+                  <div>Shipping</div>
+                  <div>${shippingPrice}</div>
+                </div>
+              </li>
+              <li>
+                <div className='flex justify-between'>
+                  <div>Tax</div>
+                  <div>${taxPrice}</div>
+                </div>
+              </li>
+              <li>
+                <div className='flex justify-between'>
+                  <div>Total</div>
+                  <div>${totalPrice}</div>
+                </div>
+              </li>
+              <li>
+                <button
+                  className='btn btn-primary w-full'
+                  onClick={() => placeOrder()}
+                  disabled={isPlacing}
+                >
+                  {isPlacing && (
+                    <span className='loading loading-spinner'></span>
+                  )}
+                  Place Order
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

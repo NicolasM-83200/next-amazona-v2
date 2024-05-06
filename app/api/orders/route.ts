@@ -29,9 +29,9 @@ export const POST = auth(async (req: any) => {
       'price'
     );
     const dbOrderItems = payload.items.map((p: { _id: string }) => ({
-      ...p,
-      product: p._id,
       price: dbProductPrices.find((p) => p._id === p._id).price,
+      product: p._id,
+      ...p,
       _id: undefined,
     }));
 
@@ -51,7 +51,12 @@ export const POST = auth(async (req: any) => {
 
     const createdOrder = await newOrder.save();
     return Response.json(
-      { message: 'Order has been created', order: createdOrder },
+      {
+        message: 'Order has been created',
+        order: createdOrder,
+        dbProductPrices: dbProductPrices,
+        dbOrderItems: dbOrderItems,
+      },
       { status: 201 }
     );
   } catch (error: any) {

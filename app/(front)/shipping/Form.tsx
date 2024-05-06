@@ -81,7 +81,7 @@ const Form = () => {
             <FromInput id='city' name='City' required />
             <FromInput id='postalCode' name='Postal Code' required />
             <FromInput id='country' name='Country' required />
-            <div className='my-2'>
+            <div className='my-4'>
               <button type='submit' className='btn btn-primary w-full'>
                 {isSubmitting && (
                   <span className='loading loading-spinner'></span>

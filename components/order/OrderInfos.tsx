@@ -43,7 +43,7 @@ const OrderInfos = ({
   }
 
   return (
-    <div className='grid md:grid-cols4 md:gap-5 md:max-w-lg mx-auto my-4'>
+    <div className='grid md:grid-cols-4 md:gap-5 my-4'>
       <div className='overflow-x-auto md:col-span-3 space-y-4'>
         <div className='card bg-base-300'>
           <div className='card-body'>
@@ -153,50 +153,50 @@ const OrderInfos = ({
             )}
           </div>
         </div>
-        <div className='card bg-base-300'>
-          <div className='card-body'>
-            <h2 className='card-title'>Order Summary</h2>
-            <ul className='space-y-3'>
+      </div>
+      <div className='card bg-base-300'>
+        <div className='card-body'>
+          <h2 className='card-title'>Order Summary</h2>
+          <ul className='space-y-3'>
+            <li>
+              <div className='flex justify-between'>
+                <div>Items</div>
+                <div>${itemsPrice}</div>
+              </div>
+            </li>
+            <li>
+              <div className='flex justify-between'>
+                <div>Shipping</div>
+                <div>${shippingPrice}</div>
+              </div>
+            </li>
+            <li>
+              <div className='flex justify-between'>
+                <div>Tax</div>
+                <div>${taxPrice}</div>
+              </div>
+            </li>
+            <li>
+              <div className='flex justify-between'>
+                <div>Total</div>
+                <div>${totalPrice}</div>
+              </div>
+            </li>
+            {pathname === '/place-order' && (
               <li>
-                <div className='flex justify-between'>
-                  <div>Items</div>
-                  <div>${itemsPrice}</div>
-                </div>
+                <button
+                  className='btn btn-primary w-full'
+                  onClick={() => placeOrder && placeOrder()}
+                  disabled={isPlacing}
+                >
+                  {isPlacing && (
+                    <span className='loading loading-spinner'></span>
+                  )}
+                  Place Order
+                </button>
               </li>
-              <li>
-                <div className='flex justify-between'>
-                  <div>Shipping</div>
-                  <div>${shippingPrice}</div>
-                </div>
-              </li>
-              <li>
-                <div className='flex justify-between'>
-                  <div>Tax</div>
-                  <div>${taxPrice}</div>
-                </div>
-              </li>
-              <li>
-                <div className='flex justify-between'>
-                  <div>Total</div>
-                  <div>${totalPrice}</div>
-                </div>
-              </li>
-              {pathname === '/place-order' && (
-                <li>
-                  <button
-                    className='btn btn-primary w-full'
-                    onClick={() => placeOrder && placeOrder()}
-                    disabled={isPlacing}
-                  >
-                    {isPlacing && (
-                      <span className='loading loading-spinner'></span>
-                    )}
-                    Place Order
-                  </button>
-                </li>
-              )}
-            </ul>
-          </div>
+            )}
+          </ul>
         </div>
       </div>
     </div>
