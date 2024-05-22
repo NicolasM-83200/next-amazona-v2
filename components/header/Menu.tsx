@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { signIn, signOut, useSession } from 'next-auth/react';
 
 const Menu = () => {
-  const { items } = useCartService();
+  const { items, init } = useCartService();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -14,6 +14,7 @@ const Menu = () => {
 
   const handleSignOut = () => {
     signOut({ callbackUrl: '/signin' });
+    init();
   };
 
   const { data: session } = useSession();
@@ -56,6 +57,12 @@ const Menu = () => {
                   tabIndex={0}
                   className='menu dropdown-content z-[1] p-2 shadow bg-base-300 rounded-box w-52'
                 >
+                  <li>
+                    <Link href={`/order-history`}>Order History</Link>
+                  </li>
+                  <li>
+                    <Link href={`/profile`}>My profile</Link>
+                  </li>
                   <li>
                     <button type='button' onClick={handleSignOut}>
                       Sign Out
