@@ -7,7 +7,7 @@ type Layout = {
 };
 const initialState: Layout = {
   theme: 'system',
-  drawerOpen: true,
+  drawerOpen: false,
 };
 
 export const layoutStore = create<Layout>()(
