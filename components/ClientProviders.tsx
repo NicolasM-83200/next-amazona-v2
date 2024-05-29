@@ -1,6 +1,7 @@
 'use client';
 import { cartStore } from '@/lib/hooks/useCartStore';
-import { useEffect } from 'react';
+import useLayoutService from '@/lib/hooks/useLayout';
+import { useEffect, useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import { SWRConfig } from 'swr';
 
@@ -21,6 +22,12 @@ export default function ClientProviders({
     };
   }, []);
 
+  const { theme } = useLayoutService();
+  const [selectedTheme, setSelectedTheme] = useState('system');
+  useEffect(() => {
+    setSelectedTheme(theme);
+  }, [theme]);
+
   return (
     <SWRConfig
       value={{
@@ -36,8 +43,8 @@ export default function ClientProviders({
         },
       }}
     >
-      <Toaster />
-      {children}
+      <Toaster toastOptions={{ className: 'toaster-con' }} />
+      <div data-theme={selectedTheme}>{children}</div>
     </SWRConfig>
   );
 }

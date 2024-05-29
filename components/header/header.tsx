@@ -8,7 +8,7 @@ const Header = () => {
       <nav>
         <div className='navbar justify-between bg-base-300'>
           <Link href='/' className='btn btn-ghost text-lg'>
-            Next Amazona V2
+            Next Amazona
           </Link>
           <Menu />
         </div>

@@ -21,7 +21,7 @@ const Menu = () => {
 
   return (
     <div>
-      <ul className='flex items-stretch'>
+      <ul className='flex items-center'>
         <li>
           <Link href='/cart' className='btn btn-ghost rounded-btn'>
             Cart
