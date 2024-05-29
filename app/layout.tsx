@@ -4,6 +4,8 @@ import './globals.css';
 import Header from '@/components/header/header';
 import Providers from '@/components/Providers';
 import Footer from '@/components/footer/Footer';
+import DrawerButton from '@/components/DrawerButton';
+import Sidebar from '@/components/Sidebar';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -21,10 +23,24 @@ export default function RootLayout({
     <html lang='en'>
       <body className={inter.className}>
         <Providers>
-          <div className='min-h-screen flex flex-col'>
-            <Header />
-            {children}
-            <Footer />
+          <div className='drawer'>
+            <DrawerButton />
+            <div className='drawer-content'>
+              {/* Page content here */}
+              <div className='min-h-screen flex flex-col'>
+                <Header />
+                {children}
+                <Footer />
+              </div>
+            </div>
+            <div className='drawer-side'>
+              <label
+                htmlFor='my-drawer'
+                aria-label='close sidebar'
+                className='drawer-overlay'
+              ></label>
+              <Sidebar />
+            </div>
           </div>
         </Providers>
       </body>
