@@ -19,6 +19,10 @@ const Menu = () => {
 
   const { data: session } = useSession();
 
+  const handleClick = () => {
+    (document.activeElement as HTMLElement).blur();
+  };
+
   return (
     <div>
       <ul className='flex items-center'>
@@ -57,11 +61,16 @@ const Menu = () => {
                   tabIndex={0}
                   className='menu dropdown-content z-[1] p-2 shadow bg-base-300 rounded-box w-52'
                 >
+                  {session.user.isAdmin && (
+                    <li onClick={handleClick}>
+                      <Link href={`/admin/dashboard`}>Admin Dashboard</Link>
+                    </li>
+                  )}
                   <li>
                     <Link href={`/order-history`}>Order History</Link>
                   </li>
                   <li>
-                    <Link href={`/profile`}>My profile</Link>
+                    <Link href={`/profile`}>Profile</Link>
                   </li>
                   <li>
                     <button type='button' onClick={handleSignOut}>
