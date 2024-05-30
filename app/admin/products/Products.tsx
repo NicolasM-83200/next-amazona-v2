@@ -91,7 +91,7 @@ export default function Products() {
                 <td>{product.countInStock}</td>
                 <td>{product.rating}</td>
                 <td>
-                  <Link href={`/admin/product/${product._id}`}>Edit</Link>
+                  <Link href={`/admin/products/${product._id}`}>Edit</Link>
                   &nbsp;
                   <button
                     type='button'
