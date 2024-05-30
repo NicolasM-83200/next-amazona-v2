@@ -6,7 +6,7 @@ import UserModel from '@/lib/models/UserModel';
 
 export const GET = auth(async (...request: any) => {
   const [req, { params }] = request;
-  if (!req.auth) {
+  if (!req.auth || !req.auth.user?.isAdmin) {
     return Response.json({ message: 'Unauthorized' }, { status: 401 });
   }
   await dbConnect();
@@ -72,4 +72,4 @@ export const GET = auth(async (...request: any) => {
     productsData,
     usersData,
   });
-});
+}) as any;

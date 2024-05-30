@@ -6,6 +6,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import toast from 'react-hot-toast';
 import useSWR from 'swr';
+import useSWRMutation from 'swr/mutation';
 
 export default function OrderDetails({
   orderId,
@@ -15,6 +16,26 @@ export default function OrderDetails({
   paypalClientId: string;
 }) {
   const { data: session } = useSession();
+
+  const { trigger: deliverOrder, isMutating: isDelivering } = useSWRMutation(
+    `/api/orders/${orderId}`,
+    async (url) => {
+      try {
+        const res = await fetch(`/api/admin/orders/${orderId}/deliver`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        const data = await res.json();
+        res.ok
+          ? toast.success('Order delivered successfully')
+          : toast.error(data.message);
+      } catch (error: any) {
+        console.error(error.message);
+      }
+    }
+  );
 
   const createPaypalOrder = async () => {
     try {
@@ -178,6 +199,21 @@ export default function OrderDetails({
                       onApprove={onApprovePaypalOrder}
                     />
                   </PayPalScriptProvider>
+                </li>
+              )}
+
+              {session?.user.isAdmin && (
+                <li>
+                  <button
+                    onClick={() => deliverOrder()}
+                    disabled={isDelivering}
+                    className='btn w-full my-2'
+                  >
+                    {isDelivering && (
+                      <span className='loading loading-spinner'></span>
+                    )}
+                    Mark as Delivered
+                  </button>
                 </li>
               )}
             </ul>
