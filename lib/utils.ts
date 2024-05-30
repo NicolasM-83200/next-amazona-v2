@@ -9,3 +9,7 @@ export function convertDocToObj(doc: any) {
 export const formatNumber = (num: number) => {
   return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 };
+
+export const formatId = (id: string) => {
+  return `..${id.substring(20, 24)}`;
+};
