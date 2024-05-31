@@ -10,7 +10,7 @@ export default function Orders() {
   if (!orders) return <div>Loading...</div>;
 
   return (
-    <div>
+    <>
       <h1 className='py-4 text-2xl'>Orders</h1>
       <div className='overflow-x-auto'>
         <table className='table'>
@@ -52,6 +52,6 @@ export default function Orders() {
           </tbody>
         </table>
       </div>
-    </div>
+    </>
   );
 }

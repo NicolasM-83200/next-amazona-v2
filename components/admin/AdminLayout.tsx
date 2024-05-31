@@ -28,8 +28,8 @@ const AdminLayout = async ({
   ];
 
   return (
-    <div className='relative flex flex-grow'>
-      <div className='w-full grid md:grid-cols-5'>
+    <main className='flex-grow container mx-auto px-4'>
+      <div className='md:grid md:grid-cols-5'>
         <div className='bg-base-200'>
           <ul className='menu'>
             {menuItems.map((item) => (
@@ -46,7 +46,7 @@ const AdminLayout = async ({
         </div>
         <div className='md:col-span-4'>{children}</div>
       </div>
-    </div>
+    </main>
   );
 };
 

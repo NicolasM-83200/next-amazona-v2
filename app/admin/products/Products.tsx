@@ -55,7 +55,7 @@ export default function Products() {
   }
 
   return (
-    <div>
+    <>
       <div className='flex justify-between items-center'>
         <h1 className='py-4 text-2xl'>Products</h1>
         <button
@@ -106,6 +106,6 @@ export default function Products() {
           </tbody>
         </table>
       </div>
-    </div>
+    </>
   );
 }

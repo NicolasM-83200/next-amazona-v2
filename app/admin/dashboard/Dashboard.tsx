@@ -129,8 +129,8 @@ const Dashboard = () => {
   ];
 
   return (
-    <div>
-      <div className='my-4 stats inline-grid md:flex shadow stats-vertical md:stats-horizontal'>
+    <>
+      <div className='w-full my-4 stats inline-grid md:flex shadow stats-vertical md:stats-horizontal'>
         {stats.map((stat) => (
           <div key={stat.name} className='stat'>
             <div className='stat-title'>{stat.name}</div>
@@ -148,29 +148,37 @@ const Dashboard = () => {
         ))}
       </div>
       <div className='grid md:grid-cols-2 gap-4'>
-        <div className='max-w-xs'>
+        <div className=''>
           <h2 className='text-xl py-2'>Sales Report</h2>
-          <Line data={salesData} />
+          <div className='w-[90%] h-80 relative mx-auto'>
+            <Line options={{ maintainAspectRatio: false }} data={salesData} />
+          </div>
         </div>
-        <div className='max-w-xs'>
+        <div className=''>
           <h2 className='text-xl py-2'>Orders Report</h2>
-          <Line data={ordersData} />
+          <div className='w-[90%] h-80 relative mx-auto'>
+            <Line options={{ maintainAspectRatio: false }} data={ordersData} />
+          </div>
         </div>
       </div>
       <div className='grid md:grid-cols-2 gap-4'>
-        <div>
+        <div className=''>
           <h2 className='text-xl py-2'>Products Report</h2>
-          <div className='flex items-center justify-center h-80 w-96 max-w-xs'>
-            {' '}
-            <Doughnut data={productsData} />
+          <div className='w-[90%] h-80 relative mx-auto'>
+            <Doughnut
+              options={{ maintainAspectRatio: false }}
+              data={productsData}
+            />
           </div>
         </div>
-        <div className='max-w-xs'>
+        <div className=''>
           <h2 className='text-xl py-2'>Users Report</h2>
-          <Bar data={usersData} />
+          <div className='w-[90%] h-80 relative mx-auto'>
+            <Bar options={{ maintainAspectRatio: false }} data={usersData} />
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
