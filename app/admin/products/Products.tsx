@@ -91,12 +91,21 @@ export default function Products() {
                 <td>{product.countInStock}</td>
                 <td>{product.rating}</td>
                 <td>
-                  <Link href={`/admin/products/${product._id}`}>Edit</Link>
+                  <Link
+                    href={`/admin/products/${product._id}`}
+                    className='btn btn-link btn-sm'
+                  >
+                    Edit
+                  </Link>
                   &nbsp;
                   <button
                     type='button'
                     className='btn btn-ghost btn-sm'
-                    onClick={() => deleteProduct({ productId: product._id! })}
+                    onClick={() => {
+                      confirm('Are you sure you want to delete this product?')
+                        ? deleteProduct({ productId: product._id! })
+                        : null;
+                    }}
                   >
                     Delete
                   </button>
