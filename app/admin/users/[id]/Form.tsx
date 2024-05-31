@@ -91,7 +91,7 @@ export default function UserEditForm({ userId }: { userId: string }) {
   );
 
   return (
-    <>
+    <div className='my-4'>
       <h1 className='py-4 text-2xl'>Edit User {formatId(userId)}</h1>
       <form onSubmit={handleSubmit(formSubmit)}>
         <FormInput id='name' name='Name' required />
@@ -120,6 +120,6 @@ export default function UserEditForm({ userId }: { userId: string }) {
           Cancel
         </Link>
       </form>
-    </>
+    </div>
   );
 }

@@ -124,7 +124,7 @@ export default function ProductEditForm({ productId }: { productId: string }) {
   };
 
   return (
-    <div>
+    <div className='my-4'>
       <h1 className='text-2xl py-4'>Edit Product {formatId(productId)}</h1>
       <div>
         <form onSubmit={handleSubmit(formSubmit)}>
