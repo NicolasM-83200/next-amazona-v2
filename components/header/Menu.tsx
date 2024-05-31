@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import useCartService from '@/lib/hooks/useCartStore';
 import Link from 'next/link';
 import { signIn, signOut, useSession } from 'next-auth/react';
+import { SearchBox } from './SearchBox';
 
 const Menu = () => {
   const { items, init } = useCartService();
@@ -25,6 +26,9 @@ const Menu = () => {
 
   return (
     <div>
+      <div className='hidden md:block'>
+        <SearchBox />
+      </div>
       <ul className='flex items-center'>
         <li>
           <Link href='/cart' className='btn btn-ghost rounded-btn'>
